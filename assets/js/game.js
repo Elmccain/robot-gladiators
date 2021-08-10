@@ -1,22 +1,3 @@
-//Display code and ask if they want to play again 
-/* 
--When the player is defeated or there are no more enemies call the endGame() function that:
-    - Alerts the players total stats
-    -asks the player if they want to go again
-    -If yes, call startGame()
-//Ask if they want to go to the store
--After the player skips or defeats an enemy (and thee are still more robots to fight)
-    -Ask if they want to shop
-    -if no continue as normal
-    -if yes call the shop() function
-    -int the shop() function ask if they want to refil health, upgrade attack , or leave
-//In the store ask if they want to REFIL health, UPGRADE attack, LEAVE the store
-    0if refil subtract money points and increase healt
-    -if upgrade subtract money and increase attack
-    -if leave alert goodye and exit the function
-    -if any other invalid option call shop() again
-    */
-
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
 var playerAttack = 10;
@@ -45,14 +26,15 @@ var fight = function (enemyName) {
             if (confirmSkip) {
                 window.alert(playerName + ' has decided to skip this fight. Goodbye!');
                 // subtract money from playerMoney for skipping
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney", playerMoney);
                 break;
             }
         }
 
         // remove enemeys health by subtracting the amount set as playerAttack var
-        enemyHealth = enemyHealth - playerAttack;
+        var damage = randomNumber(playerAttack -3, playerAttack);
+        enemyHealth = Math.max(0, enemyHealth - damage);
         console.log(
             playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
         );
@@ -69,7 +51,8 @@ var fight = function (enemyName) {
         }
 
         //remove player health by subtracking the amount set as enemyAttack var
-        playerHealth = playerHealth - enemyAttack;
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+        playerHealth = Math.max(0, playerHealth - damage);
         console.log(
             enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
         );
@@ -99,7 +82,7 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
 
             //reset enemyHealth before starting new fight
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
             //pass the pickedEnemyName var value into fight function, where it wll assume the value of the enemyName parameter
             fight(pickedEnemyName);
             //if we're not at the last enemy in the array
@@ -182,6 +165,11 @@ var shop = function() {
             shop();
             break;
     }
+};
+//function to generate a random number
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
 };
     //start the game when the page loads
     startGame();
