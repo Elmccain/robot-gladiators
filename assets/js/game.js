@@ -4,25 +4,41 @@
 //add math random to the fight order
 //add a cache for hte high score --- use web storage API for local storage
 //fight function
+var fightOrSkip =function() {
+    //ask if the player wants to fight or skip
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+    // contitional Recursive Function Call
+    promptFight = promptFight.toLowerCase();
+    if (!promptFight) {
+        window.alert("You need to provide a valid answer! Please try again.");
+        return fightOrSkip();
+    }
+
+    // if player picks "skip" confirm and then stop the loop
+    if (promptFight === "skip" || promptFight === "SKIP") {
+        // confirm player wants to skip
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+        // if yes (true), leave fight
+        if (confirmSkip) {
+            window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
+            // subtract money from playerInfo.money for skipping
+            playerInfo.money = playerInfo.money - 10;
+            //return true if player wants to skip
+            return true;
+        }
+        return false;
+    }
+
+}
 var fight = function (enemy) {
     //repeat and execute as long as the enemy robot is alive
     while (enemy.health > 0 && enemy.health > 0) {
         //ask if the player wants to fight or skip
-        var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
-        // if player picks "skip" confirm and then stop the loop
-        if (promptFight === "skip" || promptFight === "SKIP") {
-            // confirm player wants to skip
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-            // if yes (true), leave fight
-            if (confirmSkip) {
-                window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-                // subtract money from playerInfo.money for skipping
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo.money", playerInfo.money);
-                break;
-            }
-        }
+        if (fightOrSkip()){
+        //if true, leave the fight by breaking the loop
+        break;
+    }
 
         // remove enemeys health by subtracting the amount set as playerInfo.attack var
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
