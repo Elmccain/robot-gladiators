@@ -1,5 +1,3 @@
-//write an if statement to prevent null or blank from running
-//add rule to skip function to allow it to run with all variants of capitalization
 //add numbers to the selectors of the shop function for ease of selection
 //add math random to the fight order
 //add a cache for hte high score --- use web storage API for local storage
@@ -132,20 +130,19 @@ var endGame = function () {
 var shop = function () {
     //ask player what they want to do
     var shopOptionPromt = window.prompt(
-        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', OR 'LEAVE' to make your choice."
+        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 1 for REFILL, 2 for UPGRADE, OR 3 for LEAVE."
     );
+    shopOptionPromt = parseInt(shopOptionPromt);
+    
     //use switch to carry out the action
     switch (shopOptionPromt) {
-        case "refill":
-        case "REFILL":
+        case 1:
             playerInfo.refillHealth();
             break;
-        case "upgrade":
-        case "UPGRADE":
+        case 2:
             playerInfo.upgradeAttack();
             break;
-        case "leave":
-        case "LEAVE":
+        case 3:
             window.alert("Leaving the store.");
             //do nothing, so the function will end
             break;
